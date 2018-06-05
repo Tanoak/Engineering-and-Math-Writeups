@@ -1,0 +1,10 @@
+\documentclass[12pt,letterpaper]{report}
+\usepackage{graphicx}
+
+\begin{document}
+
+\title{Simulating and Understanding the Birthday Problem in MATLAB}
+\author{Brandon Y. Tai}
+\maketitle
+
+\end{document}
