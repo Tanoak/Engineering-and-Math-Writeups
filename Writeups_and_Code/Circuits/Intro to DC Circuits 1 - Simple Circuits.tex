@@ -1,0 +1,101 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Introduction to Circuits I - DC Sources and Resistive Loads}
+\author{Brandon Y. Tai}
+\maketitle
+
+\setcounter{section}{0}
+\section{Circuit Definitions}
+A circuit is a closed path where current can flow (where current is the rate of flow of charges with respect to time, denoted as \begin{equation} I = \frac{dQ}{dt} \end{equation}, where I has units of Ampere [A]). \par
+
+Consider the circuit below, which has a 12 Volt Battery and a 2 kiloOhm Resistor:
+\begin{center}
+\includegraphics{12V} \label{Fig. 1}
+\end{center}
+
+
+The battery serves as a source of potential difference, with the positive terminal of the battery 12V higher than the negative terminal of the battery.\textbf{Current tends to flow from high potential to low potential, moving out from the positive terminal of the device)}. If we consider this to be an ideal voltage source --- which we will --- this potential difference will be assumed to be maintained regardless of the current flowing through the battery. \textbf{It is important to note that we will often discuss potential difference in a circuit, as there is technically no such thing as absolute potential in a circuit. Most of the time, a ground node will be placed on the circuit. This ground node sets the potential at that point to 0V, which means that all of the other voltages of the circuit can be determined relative to the ground. }\par
+
+\begin{center}
+\includegraphics{12Vg} \label{Fig. 2}
+\end{center}
+
+Here, since we set the negative terminal of the battery to 0V, by virtue of being tied to ground, we then know that the positive terminal is 12V, which is 12V higher than the negative terminal of the battery.  \par
+
+Suppose we wanted to find the current flowing through this circuit. For this simple circuit, simply knowing Ohm's Law \begin{equation} V = IR \end{equation} is sufficient, along with knowing the current direction. (\textbf{By passive sign convention, there is a potential difference +12V going from the left terminal of R1 to the right terminal of R1. Since positive power means the device consumes net power and negative power means the device produces power, the current must be to the right, i.e. in the same direction as the resistor voltage drop.)}
+
+\begin{align}
+V &= IR \\
+ \frac{V}{R} &= {I} \\
+ \frac{12V}{2k \Omega} &= {I} \\
+I &= .006 A \\
+I &= 6.mA 
+\end{align} 
+
+
+\subsection{A Note on Wires}
+In circuit analysis, we often consider our wires to be ideal wires, so that there are no voltage drops across the wire (unless otherwise specified). This means that any two points connected directly by wire will be at the same voltage. (For the aforementioned circuit, the negative terminal of the battery, ground, and the right terminal of R1 have the same potential, while the positive terminal of the battery and the left terminal of R1 have the same potential). In other words, wires (sometimes referred to as short circuits) have 0 resistance. \par
+
+Note that if two segments of wire are not connected, it is called an open circuit.
+\begin{center}
+\includegraphics{OC} \label{Fig. 3}
+\end{center}
+In such a case, the voltages of both segments can differ, and no current will flow between them. Thus, they can be considered to have infinite resistance.
+
+
+\section{Kirchoff's Laws}
+While the simple V=IR approach works well for circuits with a single resistor and battery in a loop (like the one in Fig. 1),  it by itself will prove insufficient for more complex circuits.
+
+\subsection{Kirchoff's Current Law}
+\textbf{Kirchoff's Current Law} says that \textit{all currents flowing into a node is equal to all currents flowing out of a node.} As an equation, we can express this as \begin{equation} \sum I_{out} = \sum I_{in}.\end{equation} \par
+For example, consider the following circuit:
+
+\begin{center}
+\includegraphics{KCL1} \label{Fig. 4}
+\end{center}
+
+We can define current directions, like so:
+
+\begin{center}
+\includegraphics{KCL2} \label{Fig. 5}
+\end{center}
+
+So that we can develop the equation using KCL \begin{equation} I_{1} + I_{2} = I_{3} \end{equation} (We won't worry about how these directions were chosen right now, but suffice to say that they were chosen arbitarily and the math will show which is the correct direction when we explore NODAL and MESH analysis.) \par
+
+We don't know the voltage of the node we are considering, though, so let's assign it variable V\textsubscript{A}. \par
+
+From Ohm's Law and KCL, we can develop the system of equations that can then be solved.
+
+$\begin{cases}
+\frac{15 - V_{A}}{R_{1}} = I_{1} \\
+\frac{21 - V_{A}}{R_{2}} = I_{2} \\
+\frac{V_A - 0}{R_{3}} = I_{3} \\
+I_1 + I_2 = I_3
+\end{cases}$
+
+\subsection{Kirchoff's Voltage Law (KVL)}
+\textbf{Kirchoff's Voltage Law} says that \textit{the sum of all voltages in a closed loop must be 0.} In other words, that means that there is neither a voltage gain nor drop when moving along a closed path on a circuit. We can express this as \begin{equation} \sum V_{closed loop} = 0 \end{equation}, or as \begin{equation} \sum V_{rises} = \sum V_{drops}. \end{equation} \par
+
+For example, using the circuit from Fig. 4, we can define "loop currents" --- where each closed loop has its own current --- to show KVL.
+\begin{center}
+\includegraphics{KCL3} \label{Fig. 6}
+\end{center}
+
+We can generate and solve a system of equations:
+$\begin{cases}
+15 = V_{1} + V_{3} \\
+21 = V_{2} + V_{3} \\
+\end{cases}$ \\
+
+where V\textsubscript{n} is the voltage drop across R\textsubscript{n}. \\
+
+We can rewrite the equations as such:
+$\begin{cases}
+15 = R_{1}*I_{1} + R_{3}(I_{1}+I_{2}) \\
+21 = R_{2}*I_{2} + R_{3}(I_{1}+I_{2})\\
+\end{cases}$
+\end{document}
