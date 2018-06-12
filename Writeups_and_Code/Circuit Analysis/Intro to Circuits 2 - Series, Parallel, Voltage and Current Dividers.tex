@@ -1,0 +1,157 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Introduction to Circuits II - Series, Parallel, Voltage Divider, Current Divider}
+\author{Brandon Y. Tai}
+\maketitle
+
+\setcounter{section}{-1}
+
+\section{Introduction}
+	Certain patterns to the construction of resistive circuits --- and eventually, linear circuits in general --- will show up in some form or another. While it technically isn't necessary, as KCL, KVL, nodal, and mesh analysis can be used instead. However, recognizing these common circuit models will often help save time when analyzing circuits. Note that any given model may only not necessarily be the entirety of the circuit, but instead a small portion of the circuit.
+
+\section{Series and Parallel Elements}
+
+\subsection{Elements in Series}
+Elements are said to be \textit{series} if there is only one way for current to flow though the components. (Note that current is considered to only flow in one direction, its "net direction"). The following is an example of a circuit with elements in series:
+
+\begin{center}
+\includegraphics{Series}
+\end{center}
+
+We can see that R\textsubscript{1} and R\textsubscript{2} are in series because there is only \textbf{one} path for current to flow. \par
+
+Let's try simulating this in PSPICE:
+
+\begin{center}
+\includegraphics{SeriesSim}
+\end{center}
+
+From the simulation, we can see two things: 
+\begin{itemize}
+\item The current though each device in series is the same. (Here, it is 1.000 mA)
+\item The sum of the voltage drops across R\textsubscript{1} and R\textsubscript{2} is equal to the voltage from the highest voltage terminal minus the lowest voltage terminal. (Here, that voltage is 2V --- the battery, in other words).
+\end{itemize}
+
+For series circuits, we can define an "equivalent resistance," such that replacing all relevant resistors by the equivalent resistor \textbf{does not change the total current in the circuit.} This resistance is formally defined as \begin{equation} R_{eq} = R_{1} + R_{2} + R_{3} + ... = \sum_{i=1}^{n} R_{n} = R_{eq} \end{equation}
+where \textit{i} is the \textit{i\textsuperscript{th}} resistor and n is the index of the last resistor. \par 
+
+Continuing with our example, we can compute the equivalent resistance of our circuit and use the new resistance in PSPICE.
+\begin{equation}
+\begin{split}
+ R\textsubscript{eq} &= R\textsubscript{1} + R\textsubscript{2} + ... \\
+&= 1k\Omega + 1k\Omega \\
+&= 2k\Omega 
+\end{split}
+\end{equation}
+
+\begin{center}
+\includegraphics{Serieseq}
+\end{center}
+
+Here, we can see that the current is the same --- 1.000 mA
+
+In general, resistors in series have the following properties:
+\begin{itemize}
+\item The current flowing through each resistor is the same. We can say that 
+	\begin{equation} I_{branch} = I_{1} = I_{2} = ... = I_{n} \end{equation}
+	where I\textsubscript{branch} is the current flowing through the resistors in series.
+\item The sum of the voltage drops across each resistor is equal to the voltage difference between the highest and lowest potential terminals of the elements in series: 
+	\begin{equation} V = V_{1} + V_{2} + V_{3} + ... = \sum_{i=1}^{n} V_{n} \end{equation} where V\textsubscript{i} is the voltage drop across the \textit{i\textsuperscript{th}} resistor.
+
+\item The equivalent resistance for resistors in series will always be greater than the largest individual resistance.
+\end{itemize}
+
+\subsection{Elements in Parallel}
+Elements are said to be \textit{parallel} if there are at least two ways for current to flow though the components. 
+
+Consider the following circuit:
+\begin{center}
+\includegraphics{Par}
+\end{center}
+
+We can see that there are two paths for current to flow: though R\textsubscript{1} and R\textsubscript{2}. If we were to simulate this circuit, we will see that there is current though both branches:
+
+\begin{center}
+\includegraphics{ParSim}
+\end{center}
+
+Curiously, we can see that the voltage drop across both resistors is the same while the sum of the currents through each branch is equal to the total current in the circuit. \par
+
+We define an "equivalent resistance" for parallel resistances as such:
+\begin{equation} R_{eq} = R_{1} || R_{2} || ... || R_{n} = \frac{1}{ \frac{1}{R_1} + \frac{1}{R_2} + ... + \frac{1}{R_n}} \end{equation}
+where $\parallel$ indicates that two resistances are in parallel. 
+
+If there are only two resistors in parallel, we can develop the following expression:
+\begin{equation} 
+ R_{eq} = R_{1} || R_{2} = \frac{1}{ \frac{1}{R_1} + \frac{1}{R_2}} = \frac{R_{1}*R_{2}}{R_{1}+R_{2}} 
+\end{equation}
+
+You may sometimes see this referred to as "product over sum."
+
+For this circuit, the equivalent resistance is:
+\begin{equation}
+\begin{split}
+ R_{eq} &= R_{1} || R_{2} \\
+&=  \frac{1}{ \frac{1}{R_1} + \frac{1}{R_2}} \\
+&=  \frac{1}{ \frac{1}{30k\Omega} + \frac{1}{15k\Omega}} \\
+&= 10k\Omega
+\end{split}
+\end{equation}
+Note that our equivalent resistance for resistors in parallel is smaller than our smallest resistor. In general, the equivalent resistance of resistors in parallel will always be smaller than the smallest resistor; if your result contradicts this fact, check your work. 
+
+Now, let's use our equivalent resistance and put it into the circuit:
+\begin{center}
+\includegraphics{ParEq}
+\end{center}
+
+We can see that the total current in the circuit remains unchanged.
+
+In general, resistors in series have the following properties:
+\begin{itemize}
+\item The sum of the currents flowing through each resistor is equal to the total current coming in (and leaving) the parallel resistors. We can say that 
+	\begin{equation} I_{branch} = I_{1} + I_{2} + ... +I_{n} =  \sum_{i=1}^{n} I_{n} \end{equation}
+	where I\textsubscript{branch} is the current flowing through a branch.
+\item Thevoltage across each resistor is the same for resistors in parallel.
+	\begin{equation} V = V_{1} = V_{2} = V_{3} = ... = \sum_{i=1}^{n} V_{n} \end{equation}
+
+\item The equivalent resistance for resistors in parallel will always be less than the smallest individual resistance.
+\end{itemize}
+
+\section{Voltage and Current Dividers}
+\subsection{Voltage Divider}
+Consider the following general circuit model:
+
+\begin{center}
+\includegraphics{VDiv}
+\end{center}
+
+Suppose we want to determine the voltage at the probe V.  Before we proceed, take note of a few things:
+\begin{itemize}
+\item R\textsubscript{1} and R\textsubscript{2} can be considered to be "final" equivalent resistances of some combination of series and parallel resistors.
+\item The voltage difference between R\textsubscript{1} and R\textsubscript{2} is V\textsubscript{in}, but this voltage is \textbf{not necessarily} enforced by a battery.
+\end{itemize}
+
+The voltage at the node V\textsubscript{node} is given by 
+\begin{equation} V_{node} = V_{in} * \frac{R_{2}}{R_{1}+R_{2}} \end{equation}
+
+\subsection{Current Divider}
+Consider the following general circuit model:
+
+\begin{center}
+\includegraphics[scale=0.8]{CDiv}
+\end{center}
+
+Suppose we want to determine the current flowing though the branch containing R\textsubscript{1}. Note:
+\begin{itemize}
+\item R\textsubscript{1} and R\textsubscript{2} can be considered to be "final" equivalent resistances of some combination of series and parallel resistors.
+\item The current flowing into  R\textsubscript{1} and R\textsubscript{2} is I\textsubscript{in}, but this current is \textbf{not necessarily} enforced by a current source.
+\end{itemize}
+
+
+The current running though the branch I\textsubscript{1} is given by 
+\begin{equation} I_{1} = I_{in} * \frac{R_{1} \parallel R_{2}}{R_{1}} \end{equation}
+\end{document}
