@@ -1,0 +1,87 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Introduction to Circuits III - Nodal Analysis}
+\author{Brandon Y. Tai}
+\maketitle
+
+\setcounter{section}{-1}
+
+\section{Introduction}
+	When solving a circuit using nodal analysis, we solve it by identifying the node voltages and the branch currents and the relationship between voltages and currents. This guide will forgo some of the theory to focus on how to apply nodal analysis.
+
+\section{Nodal Analysis}
+Suppose you are given a schematic for a circuit you need to solve. After simplifying extraneous information from the circuit, such as configurations including short circuits and open circuits, perform the following steps.
+
+\begin{enumerate}
+
+\item Identify all non-trivial nodes. Non-trivial nodes satisfy the following conditions:
+
+	\begin{enumerate}
+
+	\item It is a point on the circuit on wire. 
+		\begin{enumerate}
+		\item This is done out of convenience, and that we typically want the voltage (difference) \textit{across} a device (i.e. resistor).
+		\end{enumerate}
+	\item Any two nodes are connected with at least one battery or one resistor between them; they are not connected directly by wire.
+		\begin{enumerate}
+		\item If two nodes aren't connected by anything, i.e. there is no path between two nodes, then portions of the circuit where no current flows can be ignored.
+		\item If two nodes are connected directly by wire, then they are functionally the same node, as they have the same voltage and the redundant node provides no significant information, so we only have to consider \textit{one} of them.
+		\end{enumerate}
+	\end{enumerate}
+
+\item Assign each non-trivial node found in step 1 a voltage.
+		\begin{enumerate}
+		\item Assign one of the nodes to be a reference (ground) node whose voltage will be assigned to 0. 
+		\item If a voltage of a node can be immediately identified, label the voltage of that node on the schematic.
+		\item For the remaining (currently unknown) voltages, label each voltage with a variable. (You may find it convenient to label these voltages with subscripts, i.e. V\textsubscript{A}, V\textsubscript{B}, ..., or V\textsubscript{1}, etc.)
+		\end{enumerate}
+
+
+\item Determine the branch current \textbf{(magnitude and direction)} flowing between nodes using Ohm's Law. Define a current for each branch.
+	\begin{itemize}
+	\item From passive sign convention, we define the current flowing from higher voltage to lower voltage. Let  V\textsubscript{start} be the voltage of the starting node and V\textsubscript{end} the voltage of the ending node with resistance R\textsubscript{branch} separating the two nodes. (Note that R\textsubscript{branch} may be the equivalent resistance of series and parallel elements.) The current \textit{I} is defined as
+\begin{equation} I = \frac{V_{start} - V_{end}}{R_{branch}} \end{equation}
+where the current flows \textbf{from} V\textsubscript{start} \textbf{to} V\textsubscript{end}.
+	\end{itemize}
+	
+
+\item Relate the currents together using Kirchoff's current law. Apply KCL to each node and discard redundant information obtained in this step.
+
+
+\item The equations generated in step (4) should result in a system of equations. Solve the system of equations to obtain the desired quantities.
+
+\end{enumerate}
+	
+
+\section{Comments on Nodal Analysis}
+	\begin{enumerate}
+	\item In order to solve the system of equations, perform the following steps.
+		\begin{enumerate}
+		\item Substitute the branch current equations generated in step (3) into the KCL equations generated in step (4). The equations in (3) define the relationships between node voltages and branch currents while the equations in (4) define the relationships between branch currents at nodes. By substituting (3) into (4), we obtain \textbf{equations that relate the node voltages to each other.}
+		\end{enumerate}
+	\item Upon simplifying the equations generated in the previous step, the system of equations should resemble: \\
+		$\begin{cases}
+		a_{11}V_{1} + a_{12}V_{2} + ... + a_{1n}V_{n} &= c_{1} \\
+		a_{21}V_{1} + a_{22}V_{2} + ... + a_{2n}V_{n} &= c_{2} \\
+		... \\
+		a_{m1}V_{1} + a_{m2}V_{2} + ... + a_{mn}V_{n} &= c_{m}
+		\end{cases}$
+		\\
+		\\The system of equations can then be solved for all node voltages 1,2,...,n.
+	\item In order to find the branch currents, simply plug in the node voltages found in the previous step into the original branch current equations.
+		\begin{itemize}
+		\item If the resulting current is negative, that means that the current flows in the direction opposite the one you assumed. This is perfectly fine, although you should take note that the current is opposite in direction.
+		\end{itemize}
+	\item If two nodes are connected with a battery in between them, it may otherwise be difficult to find the current flowing between the nodes. If such a scenario occurs, you can perform either one of the following procedures (though you may notice they are effectively the same):
+		\begin{enumerate}
+		\item Define a dummy current flowing between the nodes. Use this dummy current for generating KCL equations at the nodes, and obtain the equation(s) no longer in terms of the dummy current.
+		\item Consider the two nodes with a battery between them as a super node. All of the current flowing into either one of the nodes is equal to all of the currents flowing out from either one of the two nodes.
+		\end{enumerate}
+	\end{enumerate}
+
+
+\end{document}
