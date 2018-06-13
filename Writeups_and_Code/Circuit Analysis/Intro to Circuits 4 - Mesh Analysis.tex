@@ -1,0 +1,46 @@
+\documentclass[12 pt,letterpaper]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Introduction to Circuits II - Series, Parallel, Voltage Divider, Current Divider}
+\author{Brandon Y. Tai}
+\maketitle
+
+\setcounter{section}{-1}
+
+\section{Introduction}
+	Much like how we can use nodal analysis to solve circuits, we can use mesh analysis to solve circuits. (They can also be solved using superposition, will be explained in a different document.) This guide will presume knowledge and terms discussed in previous guides. As always, greater emphasis is placed in solving the circuits and computation.
+
+\section{Process for Mesh Analysis}
+\begin{enumerate}
+\item Identify all non-trivial nodes.
+\item Identify the meshes.
+	\begin{enumerate}
+	\item By formal definition, a mesh is a closed path that ends on the same non-trivial node it starts from, where no node or branch is repeated.
+	\end{enumerate}
+\item For each mesh, define (and label) a loop current.
+	\begin{enumerate}
+	\item The loop current can be defined to be either clockwise (CW) or counter-clockwise (CCW). The direction assumed at the start (either CW or CCW) is arbitrary, although you should note that the direction you pick will affect the equations generated later.
+	\item While the direction is unimportant, you may find that you have your own preferences for current direction.
+	\item You may find it easier to define the loop currents so that either (if applicable):
+		\begin{itemize}
+		\item The current comes \textit{out} from the positive end of the terminal of the battery, or
+		\item The current flows \textit{in the same direction} as the direction of the current source.
+		\end{itemize}
+	\end{enumerate}
+\item Generate the loop equations using Kirchoff's Voltage Law --- KVL --- where the sum of voltages in any closed path, ot "loop," is 0.
+	\begin{itemize}
+	\item Recall from Ohm's law that the voltage across a device is V=IR. Here, R is the resistance of the device and \textbf{I is the vector sum of currents flowing though the device.} For example, suppose we have loops numbered \textit{1} and \textit{2} with loop currents I\textsubscript{1} and I\textsubscript{2}. When developing the KVL equation for loop 1, it may occur that a resistor in loop 1 has currents  I\textsubscript{1} and I\textsubscript{2}. If both currents flow in the same direction in that branch, then the total current is  I\textsubscript{1} + I\textsubscript{2}, but if they are opposite in direction, then the toal current  I\textsubscript{1} - I\textsubscript{2}. Note that the currents are subtracted when they are in different directions and that currents are added or subtracted relative to the reference current (the current of the mesh under consideration when generating that equation).
+	\end{itemize}
+\item Solve the system of equations for the currents. Once the currents have been found, node voltages can be found by virtue of Ohm's Law.
+\end{enumerate}
+
+\section{Comments on Mesh Analysis}
+\begin{enumerate}
+\item Mesh Analysis can still be applied even if there are no independent sources in a loop.
+\item There may be times where Nodal Analysis is superior to Mesh Analysis, and vice versa. It is not always readily apparent which will be easier, but the choice in how to solve the circuit is yours.
+\end{enumerate}
+
+\end{document}
